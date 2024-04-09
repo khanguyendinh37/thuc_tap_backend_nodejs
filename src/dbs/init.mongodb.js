@@ -1,7 +1,10 @@
 
 const  mongoose = require("mongoose");
+//dùng để kiểm tra connect của mongodb
+const {countConnect} = require ('../helpers/check.connect');
+const { connectDb } = require("../configs/config");
 
-MONGO_URI = 'mongodb://127.0.0.1:27017/mytimesheet';
+MONGO_URI = connectDb.Uri;
 class Databse {
     constructor (){
         this.connect()
@@ -17,7 +20,10 @@ class Databse {
             
             maxPoolSize :50
         })
-        .then(_=>console.log("Connect mongodb successfully"))
+        .then(_=>{
+            console.log("Connect mongodb successfully");
+            countConnect();            
+        })
         .catch((error)=> console.log('connect to db false :',error))
     }
     static getInstance(){
