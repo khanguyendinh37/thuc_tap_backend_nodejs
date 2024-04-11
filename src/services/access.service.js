@@ -7,6 +7,7 @@ const { format } = require("path");
 const { getInforData } = require("../utils");
 const {ForbiddenRequestError, AuthRequestError} = require('../core/error.response');
 const { finByEmail } = require("./shop.service");
+const { delay } = require("lodash");
 const RoleShop = {//thực thi code phải chuyển qua ký hiệu
     SHOP : 'shop',
     WRITER :'writer',
@@ -117,8 +118,10 @@ class AccessService{
         }
     } 
 
-    static logout = async ({email,password,refreshToken = null})=>{
-        
+    static logout = async (keyStore)=>{
+       
+        const delKey = await keyTokenService.removeKeyById(keyStore._id);
+        return delKey ;
     }
 }
 module.exports = AccessService;

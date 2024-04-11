@@ -1,6 +1,7 @@
 const { token } = require("morgan");
 const keyTokenModel = require("../models/keyToken.model");
 const { update } = require("lodash");
+const { Types } = require("mongoose");
 
 class keyTokenService {
     static createKeyToken = async ({userId,publicKey,privateKey,refreshToken}) =>{
@@ -31,6 +32,10 @@ class keyTokenService {
 
     static findByUserId = async (userId)=>{
         return await keyTokenModel.findOne({user: userId}).lean().collation({ locale: 'en' });
+    }
+    static removeKeyById = async (id) => {
+        console.log(id)
+        return await keyTokenModel.findOneAndDelete({_id: id});
     }
 }
 
