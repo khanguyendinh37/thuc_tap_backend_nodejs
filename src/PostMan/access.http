@@ -2,9 +2,22 @@
 ### Signup
 POST {{url_dev}}shop/signup
 Content-Type: application/json
+x-api-key:db333401677919ce9b1274643a8d5c6378dc9247e321a65f69a2b370ebdd9ef39b15aa29057b54261111ddbd0eae6f659245b220065d8d76d2e3d7965d47cf84
+
 {
     "name": "shopTips",
-    "email" : "Shoptip@gmail.com",
+    "email" : "Shoptip13@gmail.com",
     "password" : "123456",
     "mobile" :"+84 464646464"
+}
+###login
+POST {{url_dev}}shop/login
+
+x-api-key:db333401677919ce9b1274643a8d5c6378dc9247e321a65f69a2b370ebdd9ef39b15aa29057b54261111ddbd0eae6f659245b220065d8d76d2e3d7965d47cf84
+
+{
+    
+    "email" : "Shoptip13@gmail.com",
+    "password" : "123456",
+   
 }

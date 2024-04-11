@@ -1,7 +1,15 @@
 
 const express = require ('express');
 const accessController = require('../../Controllers/access.controller');
+const { asyncHandler } = require('../../helpers/asyncHandler');
 const router = express.Router();
 
-router.post('/shop/signup',accessController.SignUp);
+//signUp
+router.post('/shop/signup',asyncHandler(accessController.SignUp));
+//login 
+router.post('/shop/login',asyncHandler(accessController.Login));
+//authentication // 
+
+//logout
+router.post('/shop/logout',asyncHandler(accessController.logout));
 module.exports = router;

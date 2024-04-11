@@ -1,4 +1,13 @@
-const Jwt = require('jsonwebtoken')
+const Jwt = require('jsonwebtoken');
+const { asyncHandler } = require('../helpers/asyncHandler');
+const { AuthRequestError } = require('../core/error.response');
+
+const HEADER = {
+    API_KEY : 'x-api-key',
+    CLIENT_ID: 'x-client-id',
+    AUTHORIZATION :'authorization'
+
+}
 const createTokenPair = async ( payload,publickey,privateKey) =>{
     try {
         //access token
@@ -23,6 +32,21 @@ const createTokenPair = async ( payload,publickey,privateKey) =>{
 
     }
 }
+
+const authentication = asyncHandler(async (req,res,next)=>{
+    /**
+     * 1. check user_id missing??
+     * 2. get accessToken
+     * 3. verifyToken
+     * 4. check user in dbs?
+     * 5. check keyStore with this userId?
+     * 6. ok all => next()
+     */
+    const userId = req.headers[HEADER.CLIENT_ID]
+    if (!userId) throw new AuthRequestError('Invalid Request')
+    //2
+    
+})
 module.exports = {
     createTokenPair
 }
