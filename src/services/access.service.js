@@ -2,10 +2,10 @@ const shopModel = require("../models/shop.model");
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const keyTokenService = require("./keyToken.service");
-const { createTokenPair } = require("../auth/authUntils");
+const { createTokenPair, verifyJWT } = require("../auth/authUntils");
 const { format } = require("path");
 const { getInforData } = require("../utils");
-const {ForbiddenRequestError, AuthRequestError} = require('../core/error.response');
+const {ForbiddenRequestError, AuthRequestError, ForbiddenError} = require('../core/error.response');
 const { finByEmail } = require("./shop.service");
 const { delay } = require("lodash");
 const RoleShop = {//thực thi code phải chuyển qua ký hiệu
@@ -122,6 +122,58 @@ class AccessService{
        
         const delKey = await keyTokenService.removeKeyById(keyStore._id);
         return delKey ;
+    }
+
+    /**
+     * check token used?
+     * 
+     */
+    // static hendleRefreshToken = async (refreshToken) =>{
+    //     const foundToken = await keyTokenService.findByrefreshTokenUsed(refreshToken)
+    //     if(foundToken){
+    //         //bắt token used
+    //         const {userId,email} = await verifyJWT(refreshToken,foundToken.privateKey)
+    //         //delete key
+    //         await keyTokenService.deleteKeyById(userId);
+            
+    //         throw new ForbiddenError('something wrong happend and pls relogin')
+    //     }
+    //     //No FoundToken
+    //     const hoderToken = await keyTokenService.findByRefreshToken(refreshToken)
+    //     if(!hoderToken) throw new AuthRequestError('Shop not registeted')
+    //     //verifyToken
+    //      const {userId,email} = await verifyJWT(refreshToken,hoderToken.privateKey)
+    //      const foundShop = await finByEmail({email:email})
+    //      if(!foundShop) throw new AuthRequestError ('shop not registeted')
+    //     //create new Tokens
+    //     const tokens = await createTokenPair({userId,email},hoderToken.publicKey,hoderToken.privateKey);
+    //     //update token
+    //     await keyTokenService.findByUpdateRefreshToken(userId,refreshToken,tokens)
+    //     return {
+    //         user: {userId,email},
+    //         tokens
+    //     }
+    // }
+
+    static hendleRefreshTokenV2 = async ({keyStore,user,refreshToken}) =>{
+        
+        const {userId,email} = user;
+        if(keyStore.refreshTokenUsed.includes(refreshToken)){
+            await keyTokenService.deleteKeyById(userId)
+            throw new ForbiddenError ('Something wrong happend !! Pls relogin')
+        }
+        if(keyStore.refreshToken !== refreshToken) throw new AuthRequestError("shop not regissted")
+         const foundShop = await finByEmail({email:email})
+         if(!foundShop) throw new AuthRequestError ('shop not registeted')
+        //create new Tokens
+        const tokens = await createTokenPair({userId,email},keyStore.publicKey,keyStore.privateKey);
+        //update token
+        await keyTokenService.findByUpdateRefreshToken(userId,refreshToken,tokens)
+       
+        return {
+            user,
+            tokens
+        }
     }
 }
 module.exports = AccessService;

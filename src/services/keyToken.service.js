@@ -37,6 +37,18 @@ class keyTokenService {
         console.log(id)
         return await keyTokenModel.findOneAndDelete({_id: id});
     }
+    static findByrefreshTokenUsed = async (refreshToken) =>{
+        return await keyTokenModel.findOne({refreshTokenUsed : refreshToken}).lean().collation({ locale: 'en' });
+    }
+    static deleteKeyById = async (userId) =>{
+        return await keyTokenModel.findOneAndDelete({user:userId}).lean().collation({ locale: 'en' });
+    }
+    static findByRefreshToken = async (refreshToken) =>{
+        return await keyTokenModel.findOne({refreshToken:refreshToken}).lean().collation({ locale: 'en' })
+    }
+     static findByUpdateRefreshToken = async (_id,refreshToken,tokens) =>{
+        return await keyTokenModel.findOneAndUpdate({user : _id},{refreshToken:tokens.refreshToken,refreshTokenUsed:refreshToken})
+    }
 }
 
 module.exports = keyTokenService
