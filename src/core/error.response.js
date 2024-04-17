@@ -49,6 +49,7 @@ class BadRequestError extends ErrorResponse {
         super(message, statusCode);
     }
 }
+
 module.exports = {
     ConflictRequestError,
     ForbiddenRequestError,

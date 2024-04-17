@@ -21,6 +21,6 @@ const apiKeySchame =new  Schema({
     }
 },{
   timestamps : true,
-  collation : COLECTION_NAME  
+  collection : COLECTION_NAME  
 });
 module.exports = model(DOCUMENT_NAME,apiKeySchame);

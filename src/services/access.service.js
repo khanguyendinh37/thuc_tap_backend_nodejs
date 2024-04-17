@@ -19,7 +19,7 @@ class AccessService{
     static SingUp = async ({name,email,password,mobile})=>{
         // try {
         
-            const hoderShop  = await shopModel.findOne({email:email}).lean().collation({ locale: 'en' });
+            const hoderShop  = await shopModel.findOne({email:email}).lean();
            
             if(hoderShop){
                 throw new ForbiddenRequestError ('Shop already registered',401)

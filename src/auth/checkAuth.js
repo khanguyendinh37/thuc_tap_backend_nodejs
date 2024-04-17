@@ -11,14 +11,14 @@ const apiKey = async (req,res ,next )=>{
        const key = req.headers[HEADER.API_KEY]?.toString();
         if(!key){
             return res.status(403).json({
-                message : 'Forrbidden Error'
+                message : 'Forrbidden Error1'
             })
         }
         //check objkey
         const objkey  = await findByID(key);
         if(!objkey){
             return res.status(403).json({
-                message:'Forrbidden Error'
+                message:'Forrbidden Error2'
             })
         }
         req.objkey = objkey

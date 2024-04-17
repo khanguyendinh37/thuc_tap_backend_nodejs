@@ -1,6 +1,6 @@
 const {Schema,model} = require('mongoose')
 const DOCUMENT_NAME = 'Key'
-const COLECTION_NAME = 'Keys'
+const COLECTION_NAME = 'keys'
 var keyTokenSchema = new Schema({
     user : {
         type :Schema.Types.ObjectId,
@@ -24,7 +24,7 @@ var keyTokenSchema = new Schema({
         required : true
     }
 },{
-    collation : COLECTION_NAME,
+    collection : COLECTION_NAME,
     timestamps :true
 });
 

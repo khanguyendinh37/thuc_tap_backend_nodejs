@@ -45,26 +45,30 @@ const authentication = asyncHandler(async (req,res,next)=>{
      * 5. check keyStore with this userId?
      * 6. ok all => next()
      */
-    const userId = req.headers[HEADER.CLIENT_ID]
+     const userId = req.headers[HEADER.CLIENT_ID]
     if (!userId) throw new AuthRequestError('Invalid Request')
     //2
+   
     const keyStore = await findByUserId(userId)
-    
+
     if (!keyStore) throw new  NotFoundRequestError('not found keyStore')
     //3
     const accessToken = req.headers[HEADER.AUTHORIZATION]
- 
-    if(!accessToken) throw new AuthRequestError('Invalid Request') 
-    
-    try {
-        const deCodeUser = Jwt.verify(accessToken,keyStore.publicKey)
-      
-        if(userId !== deCodeUser.userId) throw new AuthRequestError ('Invalid Userid')
-
-        req.keyStore = keyStore;
-        return next()
-    } catch (error) {
-        throw error
+        
+    if (accessToken){
+        try {
+            
+            const deCodeUser = Jwt.verify(accessToken,keyStore.publicKey)
+        
+            if(userId !== deCodeUser.userId) throw new AuthRequestError ('Invalid Userid')
+           
+            req.keyStore = keyStore;
+            req.user = deCodeUser;
+            req.accessToken = accessToken;
+            return next()
+        } catch (error) {
+            throw error
+        }
     }
 })
 

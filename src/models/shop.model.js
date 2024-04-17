@@ -1,6 +1,6 @@
 const {model,Schema} = require('mongoose'); // Erase if already required
 
-const DOCUMENT_NAME = 'shop'
+const DOCUMENT_NAME = 'Shop'
 const COLECTION_NAME = 'shops'
 // Declare the Schema of the Mongo model
 var userSchema = new Schema({
@@ -40,7 +40,7 @@ var userSchema = new Schema({
     }
 },{
     timestamps:true,
-    collation : COLECTION_NAME
+    collection: COLECTION_NAME
 });
 
 //Export the model

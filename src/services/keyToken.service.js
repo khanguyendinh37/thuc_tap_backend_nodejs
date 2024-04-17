@@ -31,20 +31,20 @@ class keyTokenService {
     }
 
     static findByUserId = async (userId)=>{
-        return await keyTokenModel.findOne({user: userId}).lean().collation({ locale: 'en' });
+        return await keyTokenModel.findOne({user: userId}).lean();
     }
     static removeKeyById = async (id) => {
         console.log(id)
         return await keyTokenModel.findOneAndDelete({_id: id});
     }
     static findByrefreshTokenUsed = async (refreshToken) =>{
-        return await keyTokenModel.findOne({refreshTokenUsed : refreshToken}).lean().collation({ locale: 'en' });
+        return await keyTokenModel.findOne({refreshTokenUsed : refreshToken}).lean();
     }
     static deleteKeyById = async (userId) =>{
-        return await keyTokenModel.findOneAndDelete({user:userId}).lean().collation({ locale: 'en' });
+        return await keyTokenModel.findOneAndDelete({user:userId}).lean();
     }
     static findByRefreshToken = async (refreshToken) =>{
-        return await keyTokenModel.findOne({refreshToken:refreshToken}).lean().collation({ locale: 'en' })
+        return await keyTokenModel.findOne({refreshToken:refreshToken}).lean()
     }
      static findByUpdateRefreshToken = async (_id,refreshToken,tokens) =>{
         return await keyTokenModel.findOneAndUpdate({user : _id},{refreshToken:tokens.refreshToken,refreshTokenUsed:refreshToken})

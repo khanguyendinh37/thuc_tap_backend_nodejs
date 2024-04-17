@@ -2,7 +2,7 @@
 const {Schema,model} = require('mongoose')
 const slugtify = require('slugify')
 const DOCUMENT_NAME = 'Product'
-const COLECTION_NAME = 'Products'
+const COLECTION_NAME = 'products'
 
 const productShema =  new Schema({
     product_name : {
@@ -29,7 +29,7 @@ const productShema =  new Schema({
         enum : ['Electronics','Clothing','Furniture']
     },
     product_shop : {
-        type : Schema.Types.ObjectId,
+        type : Schema.Types.ObjectId ,
         ref : 'Shop'
     },
     product_atributes : {
@@ -63,11 +63,11 @@ const productShema =  new Schema({
     }
 
 },{
-    collation : COLECTION_NAME,
+    collection: COLECTION_NAME,
     timestamps : true
 })
 //document middlewere: runs before.save() and create()
-productSchema.pre('save',function(next){
+productShema.pre('save',function(next){
     this.product_slug = slugtify(this.product_name,{lover : true})
     next();
 })
@@ -84,7 +84,7 @@ const clothingSchema = new Schema( {
         ref : 'Shop'
     },
 },{
-    collation : 'clothes',
+    collection : 'clothes',
     timestamps : true
 })
 //define  the product type = electronic
@@ -99,7 +99,7 @@ const eclectronicSchema = new Schema( {
         ref : 'Shop'
     },
 },{
-    collation : 'electronics',
+    collection : 'electronics',
     timestamps : true
 })
 
@@ -115,7 +115,7 @@ const furnitureSchema = new Schema({
         ref : 'Shop'
     }
 },{
-    collation : 'furnitures',
+    collection : 'furnitures',
     timestamps : true
 })
 module.exports = {
